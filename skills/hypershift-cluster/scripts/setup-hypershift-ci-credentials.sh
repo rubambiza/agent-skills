@@ -62,17 +62,17 @@
 #   Local:
 #     .env.${MANAGED_BY_TAG}                       - All credentials in sourceable format
 #
-# USAGE:
-#   ./.github/scripts/hypershift/setup-hypershift-ci-credentials.sh
-#   ./.github/scripts/hypershift/setup-hypershift-ci-credentials.sh --rotate
-#   MANAGED_BY_TAG=myproject-ci ./.github/scripts/hypershift/setup-hypershift-ci-credentials.sh
+# USAGE (run from the hypershift-cluster/scripts directory):
+#   scripts/setup-hypershift-ci-credentials.sh
+#   scripts/setup-hypershift-ci-credentials.sh --rotate
+#   MANAGED_BY_TAG=myproject-ci scripts/setup-hypershift-ci-credentials.sh
 #
 # OPTIONS:
 #   --rotate         Delete existing access keys and .env file, then create fresh credentials
 #
 # QUOTA CHECK:
 #   For AWS quota analysis, use the standalone script:
-#     ./.github/scripts/hypershift/check-quotas.sh
+#     scripts/check-quotas.sh
 #
 
 set -euo pipefail
@@ -770,8 +770,8 @@ echo ""
 # AWS Service Quotas are ACCOUNT-LEVEL limits. For detailed quota and usage
 # information, run the standalone check-quotas.sh script:
 #
-#   ./.github/scripts/hypershift/check-quotas.sh
-#   ./.github/scripts/hypershift/check-quotas.sh --request-increases
+#   scripts/check-quotas.sh
+#   scripts/check-quotas.sh --request-increases
 #
 log_info "Skipping quota check (run check-quotas.sh for detailed quota analysis)"
 echo ""
@@ -979,28 +979,21 @@ echo "NEXT STEPS:"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 echo "  # 1. One-time setup (installs hcp CLI, ansible)"
-echo "  ./.github/scripts/hypershift/local-setup.sh"
+echo "  scripts/local-setup.sh"
 echo ""
-echo "  # 2. Full test run (creates cluster → deploys → tests → keeps cluster)"
-echo "  ./.github/scripts/local-setup/hypershift-full-test.sh --skip-cluster-destroy"
+echo "  # 2. Create a cluster (name suffix max 5 chars)"
+echo "  scripts/create-cluster.sh pr123"
 echo ""
 echo "  # 3. When done, destroy the cluster"
-echo "  ./.github/scripts/local-setup/hypershift-full-test.sh --include-cluster-destroy"
+echo "  scripts/destroy-cluster.sh pr123"
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "Common patterns:"
+echo "Full test run (create → deploy → test → destroy):"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
-echo "  # Full CI run (create → test → destroy)"
-echo "  ./.github/scripts/local-setup/hypershift-full-test.sh"
-echo ""
-echo "  # Custom cluster suffix (creates: ${MANAGED_BY_TAG}-pr123)"
-echo "  ./.github/scripts/local-setup/hypershift-full-test.sh pr123 --skip-cluster-destroy"
-echo ""
-echo "  # Iterate on existing cluster (skip create and destroy)"
-echo "  ./.github/scripts/local-setup/hypershift-full-test.sh --skip-cluster-create --skip-cluster-destroy"
-echo ""
-echo "For all options, see: .github/scripts/local-setup/README.md"
+echo "  # The deploy+e2e orchestration lives in a rossoctl checkout:"
+echo "  #   ./.github/scripts/local-setup/hypershift-full-test.sh [suffix] [flags]"
+echo "  # See the hypershift-cluster SKILL.md 'post-create' section."
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "For GitHub Actions - add secrets (copy & paste after sourcing):"
@@ -1023,7 +1016,7 @@ echo "To rotate AWS credentials (delete old keys, create new ones):"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 echo "  # One command to rotate everything:"
-echo "  ./.github/scripts/hypershift/setup-hypershift-ci-credentials.sh --rotate"
+echo "  scripts/setup-hypershift-ci-credentials.sh --rotate"
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "NOTE: Re-running this script updates policies/roles but preserves"

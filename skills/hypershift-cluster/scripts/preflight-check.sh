@@ -12,8 +12,8 @@
 # - Base domain discovery
 #
 # USAGE:
-#   ./.github/scripts/hypershift/preflight-check.sh              # Check only
-#   ./.github/scripts/hypershift/preflight-check.sh --auto-fix   # Check and fix issues
+#   scripts/preflight-check.sh              # Check only
+#   scripts/preflight-check.sh --auto-fix   # Check and fix issues
 #
 # OPTIONS:
 #   --auto-fix   Automatically fix detected issues (create OIDC secret/configmap,
@@ -540,7 +540,7 @@ if [ $ERRORS -eq 0 ]; then
     echo "╚════════════════════════════════════════════════════════════════╝"
     echo ""
     echo "Run the setup script:"
-    echo "  ./.github/scripts/hypershift/setup-hypershift-ci-credentials.sh"
+    echo "  scripts/setup-hypershift-ci-credentials.sh"
     echo ""
     exit 0
 else

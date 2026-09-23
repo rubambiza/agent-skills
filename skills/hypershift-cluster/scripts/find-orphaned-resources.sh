@@ -6,7 +6,7 @@
 # logic as our cleanup scripts (kubernetes.io/cluster/* tag-key filtering).
 #
 # USAGE:
-#   ./.github/scripts/hypershift/find-orphaned-resources.sh [OPTIONS]
+#   scripts/find-orphaned-resources.sh [OPTIONS]
 #
 # OPTIONS:
 #   --custom-prefix PREFIX   Override the default prefix (default: $MANAGED_BY_TAG)

@@ -6,15 +6,15 @@
 # Useful for debugging stuck deletions and orphaned resources.
 #
 # USAGE:
-#   ./.github/scripts/hypershift/debug-aws-hypershift.sh [OPTIONS] [cluster-name]
+#   scripts/debug-aws-hypershift.sh [OPTIONS] [cluster-name]
 #
 # OPTIONS:
 #   --check    Quiet mode - only return exit code (0=no resources, 1=resources exist)
 #
 # EXAMPLES:
-#   ./.github/scripts/hypershift/debug-aws-hypershift.sh                           # Uses default: rossoctl-hypershift-ci-local
-#   ./.github/scripts/hypershift/debug-aws-hypershift.sh rossoctl-hypershift-ci-123 # Specific cluster
-#   ./.github/scripts/hypershift/debug-aws-hypershift.sh --check local             # Check mode, returns exit code
+#   scripts/debug-aws-hypershift.sh                           # Uses default: rossoctl-hypershift-ci-local
+#   scripts/debug-aws-hypershift.sh rossoctl-hypershift-ci-123 # Specific cluster
+#   scripts/debug-aws-hypershift.sh --check local             # Check mode, returns exit code
 #
 
 set -euo pipefail

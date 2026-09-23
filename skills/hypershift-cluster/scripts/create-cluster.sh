@@ -7,7 +7,7 @@
 # IAM scoping works correctly.
 #
 # USAGE:
-#   ./.github/scripts/hypershift/create-cluster.sh [cluster-suffix]
+#   scripts/create-cluster.sh [cluster-suffix]
 #
 # CLUSTER NAMING:
 #   - Full name: ${MANAGED_BY_TAG}-${CLUSTER_SUFFIX}
@@ -21,23 +21,23 @@
 #
 # EXAMPLES:
 #   # Using defaults (creates rossoctl-hypershift-custom-ladas)
-#   ./.github/scripts/hypershift/create-cluster.sh
+#   scripts/create-cluster.sh
 #
 #   # Custom suffix (creates rossoctl-hypershift-custom-pr529)
-#   ./.github/scripts/hypershift/create-cluster.sh pr529
+#   scripts/create-cluster.sh pr529
 #
 #   # Random suffix (creates rossoctl-hypershift-custom-<random>)
-#   CLUSTER_SUFFIX="" ./.github/scripts/hypershift/create-cluster.sh
+#   CLUSTER_SUFFIX="" scripts/create-cluster.sh
 #
 #   # Custom instance type and replicas
-#   REPLICAS=3 INSTANCE_TYPE=m5.2xlarge ./.github/scripts/hypershift/create-cluster.sh
+#   REPLICAS=3 INSTANCE_TYPE=m5.2xlarge scripts/create-cluster.sh
 #
 #   # NodePool autoscaling is enabled by default (min 2, max 5)
 #   # Override autoscaling limits
-#   AUTOSCALE_MIN=1 AUTOSCALE_MAX=10 ./.github/scripts/hypershift/create-cluster.sh
+#   AUTOSCALE_MIN=1 AUTOSCALE_MAX=10 scripts/create-cluster.sh
 #
 #   # Disable autoscaling (fixed replica count)
-#   AUTOSCALE_MIN="" AUTOSCALE_MAX="" ./.github/scripts/hypershift/create-cluster.sh
+#   AUTOSCALE_MIN="" AUTOSCALE_MAX="" scripts/create-cluster.sh
 #
 
 set -euo pipefail
@@ -246,7 +246,7 @@ if oc get ns "$CONTROL_PLANE_NS" &>/dev/null; then
     echo "Creating a new cluster with the same name will fail."
     echo ""
     echo "To fix this, run the destroy script first:"
-    echo "  ./.github/scripts/hypershift/destroy-cluster.sh $CLUSTER_SUFFIX"
+    echo "  scripts/destroy-cluster.sh $CLUSTER_SUFFIX"
     echo ""
     echo "If the namespace is stuck, try force-deleting it:"
     echo "  oc delete ns $CONTROL_PLANE_NS --wait=false"
@@ -265,7 +265,7 @@ if oc get hostedcluster "$CLUSTER_NAME" -n clusters &>/dev/null; then
     echo "HostedCluster: clusters/$CLUSTER_NAME"
     echo ""
     echo "To fix this, run the destroy script first:"
-    echo "  ./.github/scripts/hypershift/destroy-cluster.sh $CLUSTER_SUFFIX"
+    echo "  scripts/destroy-cluster.sh $CLUSTER_SUFFIX"
     echo ""
     exit 1
 fi
@@ -575,6 +575,8 @@ else
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 # ┃ PHASE 3: DEPLOY ROSSOCTL + E2E (uses hosted cluster kubeconfig)              ┃
 # ┃ Credentials: KUBECONFIG from created cluster (cluster-admin on hosted)      ┃
+# ┃ NOTE: the ./scripts/ocp and ./.github/scripts/operator paths below are NOT  ┃
+# ┃ bundled with this skill — run them from a rossoctl checkout.                ┃
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 export KUBECONFIG=$CLUSTER_KUBECONFIG
 oc get nodes
@@ -593,7 +595,7 @@ export ROSSOCTL_CONFIG_FILE=deployments/envs/ocp_ci_values.yaml
 # ┃ CLEANUP: Destroy cluster (uses scoped CI credentials)                       ┃
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 source .env.hypershift-ci
-./.github/scripts/hypershift/destroy-cluster.sh ${CLUSTER_SUFFIX}
+scripts/destroy-cluster.sh ${CLUSTER_SUFFIX}
 EOF
     echo ""
 fi

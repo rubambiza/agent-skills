@@ -6,8 +6,8 @@
 # Useful for understanding how many more HyperShift clusters can be created.
 #
 # USAGE:
-#   ./.github/scripts/hypershift/check-quotas.sh
-#   ./.github/scripts/hypershift/check-quotas.sh --request-increases
+#   scripts/check-quotas.sh
+#   scripts/check-quotas.sh --request-increases
 #
 # OPTIONS:
 #   --request-increases  Request quota increases for quotas below recommended levels

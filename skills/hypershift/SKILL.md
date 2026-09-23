@@ -54,7 +54,8 @@ working). Sub-skills point at that directory via relative paths such as
 /plugin install hypershift@rossoctl-agent-skills
 ```
 
-This installs all six sub-skills as one bundle.
+This installs the whole `hypershift` plugin as one bundle: this index skill plus
+the six sub-skills listed above (seven skills total).
 
 ## Quick Start
 

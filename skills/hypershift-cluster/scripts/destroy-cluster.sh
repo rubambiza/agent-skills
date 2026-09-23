@@ -5,12 +5,12 @@
 # Destroys an ephemeral OpenShift cluster created via HyperShift.
 #
 # USAGE:
-#   ./.github/scripts/hypershift/destroy-cluster.sh <cluster-suffix-or-full-name>
+#   scripts/destroy-cluster.sh <cluster-suffix-or-full-name>
 #
 # EXAMPLES:
-#   ./.github/scripts/hypershift/destroy-cluster.sh ladas        # destroys rossoctl-hypershift-custom-ladas
-#   ./.github/scripts/hypershift/destroy-cluster.sh pr529        # destroys rossoctl-hypershift-custom-pr529
-#   ./.github/scripts/hypershift/destroy-cluster.sh rossoctl-hypershift-custom-ladas  # full name
+#   scripts/destroy-cluster.sh ladas        # destroys rossoctl-hypershift-custom-ladas
+#   scripts/destroy-cluster.sh pr529        # destroys rossoctl-hypershift-custom-pr529
+#   scripts/destroy-cluster.sh rossoctl-hypershift-custom-ladas  # full name
 #
 
 set -euo pipefail
@@ -233,7 +233,7 @@ if [ "${SKIP_ANSIBLE:-false}" != "true" ]; then
                 echo -e "${RED}✗${NC} AWS resources still exist. Manual cleanup may be required."
                 echo ""
                 echo "  Run full debug for details:"
-                echo "  ./.github/scripts/hypershift/debug-aws-hypershift.sh $CLUSTER_NAME"
+                echo "  scripts/debug-aws-hypershift.sh $CLUSTER_NAME"
             fi
         fi
     else
@@ -267,7 +267,7 @@ if ! "$SCRIPT_DIR/debug-aws-hypershift.sh" --check "$CLUSTER_NAME"; then
         log_success "Orphaned AWS resources cleaned up"
     else
         echo -e "${RED}✗${NC} Some AWS resources still remain. Manual cleanup may be required."
-        echo "  Run: ./.github/scripts/hypershift/debug-aws-hypershift.sh $CLUSTER_NAME"
+        echo "  Run: scripts/debug-aws-hypershift.sh $CLUSTER_NAME"
     fi
 else
     log_success "No orphaned AWS resources"

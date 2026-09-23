@@ -14,7 +14,7 @@
 #   - Credentials: .env.hypershift-ci (from setup-hypershift-ci-credentials.sh)
 #
 # USAGE:
-#   ./.github/scripts/hypershift/local-setup.sh
+#   scripts/local-setup.sh
 #
 
 set -euo pipefail
@@ -193,14 +193,13 @@ echo "MANAGED_BY_TAG: ${MANAGED_BY_TAG}"
 echo ""
 echo "Next steps:"
 echo ""
-echo "  # Full test run (creates cluster → deploys → tests → keeps cluster)"
-echo "  ./.github/scripts/local-setup/hypershift-full-test.sh --skip-cluster-destroy"
+echo "  # Create a cluster (name suffix max 5 chars)"
+echo "  scripts/create-cluster.sh pr123"
 echo ""
-echo "  # With custom cluster suffix (creates ${MANAGED_BY_TAG}-pr123)"
-echo "  ./.github/scripts/local-setup/hypershift-full-test.sh pr123 --skip-cluster-destroy"
+echo "  # Destroy the cluster when done"
+echo "  scripts/destroy-cluster.sh pr123"
 echo ""
-echo "  # Destroy cluster when done"
-echo "  ./.github/scripts/local-setup/hypershift-full-test.sh --include-cluster-destroy"
-echo ""
-echo "For all options, see: .github/scripts/local-setup/README.md"
+echo "  # Full deploy + e2e test run is orchestrated from a rossoctl checkout:"
+echo "  #   ./.github/scripts/local-setup/hypershift-full-test.sh [suffix] [flags]"
+echo "  # See the hypershift-cluster SKILL.md 'post-create' section."
 echo ""

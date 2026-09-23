@@ -330,7 +330,7 @@ if [ "$REMOVE_STUCK_FINALIZERS" = "true" ]; then
             fi
         else
             log_warn "  AWS resources still exist - skipping finalizer removal"
-            log_info "  Run: ./.github/scripts/hypershift/debug-aws-hypershift.sh $CLUSTER_NAME"
+            log_info "  Run: scripts/debug-aws-hypershift.sh $CLUSTER_NAME"
             FINALIZERS_SKIPPED=$((FINALIZERS_SKIPPED + 1))
         fi
         echo ""
