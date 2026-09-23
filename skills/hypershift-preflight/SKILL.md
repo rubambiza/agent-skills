@@ -3,8 +3,9 @@ name: hypershift-preflight
 description: >-
   Run pre-flight checks for HyperShift: verifies tools, AWS auth and IAM
   permissions, OpenShift auth and permissions, HyperShift install, operator OIDC,
-  pull secret, base domain, and Route53 zone. Use before first-time setup, when a
-  cluster fails to create, or to verify the environment after changes.
+  pull secret, base domain, and Route53 zone. Use when preparing for first-time
+  setup, when a cluster fails to create, or when verifying the environment after
+  changes.
 license: Complete terms in LICENSE.txt
 metadata: {"openclaw": {"requires": {"bins": ["bash", "aws", "oc", "jq"]}}}
 ---

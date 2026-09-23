@@ -3,8 +3,8 @@ name: hypershift-quotas
 description: >-
   Check AWS service quotas and usage before creating HyperShift clusters — VPCs,
   NAT gateways, Elastic IPs, security groups, NLBs, IAM roles, and Route53 zones —
-  and optionally request increases. Use before creating clusters, when planning
-  parallel CI capacity, or when debugging "quota exceeded" errors.
+  and optionally request increases. Use when preparing to create clusters, when
+  planning parallel CI capacity, or when debugging "quota exceeded" errors.
 license: Complete terms in LICENSE.txt
 metadata: {"openclaw": {"requires": {"bins": ["bash", "aws", "jq"]}}}
 ---
