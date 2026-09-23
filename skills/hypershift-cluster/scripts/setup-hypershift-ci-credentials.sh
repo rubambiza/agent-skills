@@ -469,8 +469,11 @@ echo ""
 
 log_info "Setting up IAM role for hcp CLI..."
 
-# Trust policy - allows any IAM user/role in this account to assume this role
-# This enables both local testing (any user) and CI (the CI user)
+# Trust policy - scoped to the CI and debug users this script creates (least
+# privilege). Both cover their use cases: local testing uses the CI user's keys
+# (exported to the .env file), CI uses the same CI user, and debugging uses the
+# debug user. This avoids the account-wide ":root" trust, which would let any
+# IAM principal in the account assume a role with broad EC2/ELB/Route53 access.
 HCP_ROLE_TRUST_POLICY=$(cat <<TRUSTPOLICY
 {
     "Version": "2012-10-17",
@@ -479,7 +482,10 @@ HCP_ROLE_TRUST_POLICY=$(cat <<TRUSTPOLICY
             "Effect": "Allow",
             "Action": "sts:AssumeRole",
             "Principal": {
-                "AWS": "arn:aws:iam::${AWS_ACCOUNT_ID}:root"
+                "AWS": [
+                    "arn:aws:iam::${AWS_ACCOUNT_ID}:user/${IAM_CI_USER}",
+                    "arn:aws:iam::${AWS_ACCOUNT_ID}:user/${IAM_DEBUG_USER}"
+                ]
             }
         }
     ]
