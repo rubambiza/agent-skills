@@ -999,6 +999,10 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 echo "For GitHub Actions - add secrets (copy & paste after sourcing):"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
+# Quoted 'SECRETS' delimiter is intentional: this heredoc is printed for the user
+# to copy-paste and run themselves, so ${MANAGED_BY_TAG} and the $AWS_* refs must
+# stay literal (expanded in the user's shell after they source the .env file), not
+# expanded here.
 cat << 'SECRETS'
 source .env.${MANAGED_BY_TAG} && \
 gh secret set HYPERSHIFT_MGMT_KUBECONFIG -a actions --body "$HYPERSHIFT_MGMT_KUBECONFIG_BASE64" && \

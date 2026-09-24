@@ -1,3 +1,6 @@
+# Archived from rossoctl/rossoctl (preserved verbatim, not active here).
+# To restore this scheduled cleanup in a repo, see
+# ../reference/reactivate-scheduled-cleanup.md.
 name: Cleanup Stale HyperShift Clusters
 
 on:
