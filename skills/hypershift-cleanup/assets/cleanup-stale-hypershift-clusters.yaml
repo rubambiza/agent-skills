@@ -65,21 +65,13 @@ jobs:
           export KUBECONFIG=~/.kube/config
           oc whoami --show-server
 
-      - name: Setup AWS credentials (for cluster deletion)
-        if: github.event.inputs.dry_run == 'false' || github.event_name == 'schedule'
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-        run: |
-          echo "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" >> $GITHUB_ENV
-          echo "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}" >> $GITHUB_ENV
-          echo "AWS_REGION=${AWS_REGION}" >> $GITHUB_ENV
-
       - name: Run cleanup script (Scheduled - Apply)
         if: github.event_name == 'schedule'
         env:
           KUBECONFIG: /home/runner/.kube/config
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
           bash ./.github/scripts/hypershift/cleanup-stale-clusters.sh --apply --verbose --remove-stuck-finalizers
 
@@ -87,6 +79,9 @@ jobs:
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.dry_run == 'true'
         env:
           KUBECONFIG: /home/runner/.kube/config
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
           INPUT_VERBOSE: ${{ github.event.inputs.verbose }}
           INPUT_PATTERN: ${{ github.event.inputs.pattern }}
           INPUT_REMOVE_STUCK_FINALIZERS: ${{ github.event.inputs.remove_stuck_finalizers }}
@@ -107,6 +102,9 @@ jobs:
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.dry_run == 'false'
         env:
           KUBECONFIG: /home/runner/.kube/config
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
           INPUT_VERBOSE: ${{ github.event.inputs.verbose }}
           INPUT_PATTERN: ${{ github.event.inputs.pattern }}
           INPUT_REMOVE_STUCK_FINALIZERS: ${{ github.event.inputs.remove_stuck_finalizers }}
